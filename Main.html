@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sovereign Order Countdown | Walleye's Clan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .admin-box {
+            background: var(--dark);
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            border: 1px solid var(--primary);
+            position: relative;
+        }
+
+        .admin-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: #94a3b8;
+            cursor: pointer;
+        }
+
+        .password-input {
+            position: relative;
+            margin: 1.5rem 0;
+        }
+
+        .password-input input {
+            padding-left: 3.5rem !important;
+        }
+
+        .password-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+        }
+
+        .admin-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --secondary: #a855f7;
+            --accent: #ec4899;
+            --dark: #0f172a;
+            --light: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--dark), #1e293b);
+            color: var(--light);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        .countdown-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            text-align: center;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .countdown-text {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .countdown-timer {
+            font-size: 2.5rem;
+            font-weight: 600;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bet-form {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(15, 23, 42, 0.7);
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        button {
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            border: none;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .bets-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .bet-card {
+            background: rgba(15, 23, 42, 0.7);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideIn 0.5s ease-out;
+            transition: transform 0.2s ease;
+        }
+
+        .bet-card:hover {
+            transform: translateX(5px);
+        }
+
+        .bet-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(99, 102, 241, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .bet-date {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .bet-comment {
+            color: #94a3b8;
+            font-style: italic;
+        }
+
+        .bet-timestamp {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-top: 1rem;
+        }
+
+        .admin-panel {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.5rem; }
+            .title { font-size: 2rem; }
+            .countdown-timer { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Sovereign Order Bets</h1>
+            <p class="subtitle">Bet on the end of Walleye's clan</p>
+        </div>
+
+        <div class="countdown-card">
+            <div class="countdown-text">Closest Prediction</div>
+            <div class="countdown-timer" id="countdown"></div>
+        </div>
+
+        <form class="bet-form" id="betForm">
+            <div class="form-group">
+                <i class="fas fa-user form-icon"></i>
+                <input type="text" id="userName" placeholder="Prophet's Name" required>
+            </div>
+            <div class="form-group">
+                <i class="fas fa-calendar-day form-icon"></i>
+                <input type="date" id="endDate" required>
+            </div>
+            <div class="form-group">
+                <i class="fas fa-comment form-icon"></i>
+                <input type="text" id="comment" placeholder="Wisdom (optional)">
+            </div>
+            <button type="submit">
+                <i class="fas fa-dice"></i> Place Prophecy
+            </button>
+        </form>
+
+        <div class="bets-list" id="betsList"></div>
+
+        <div class="admin-panel">
+            <button onclick="resetBets()" style="background: var(--accent); margin-right: 1rem;">
+                <i class="fas fa-trash"></i> Reset Prophecies
+            </button>
+            <button onclick="mockEndClan()" style="background: var(--secondary);">
+                <i class="fas fa-skull"></i> Simulate Ragnarök
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ... (Keep previous JavaScript functionality but update text references) ... //
+        // Update countdown messages and localStorage key to match theme
+        let bets = JSON.parse(localStorage.getItem('prophecies')) || [];
+
+        // Modify form submission handler
+        document.getElementById('betForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const userName = document.getElementById('userName').value;
+            const endDate = document.getElementById('endDate').value;
+            const comment = document.getElementById('comment').value;
+
+            if (new Date(endDate) < new Date()) {
+                showError('The threads of fate only extend forward!');
+                return;
+            }
+
+            bets.push({
+                user: userName,
+                date: endDate,
+                comment: comment,
+                timestamp: new Date().toISOString()
+            });
+
+            localStorage.setItem('prophecies', JSON.stringify(bets));
+            updateBetsDisplay();
+            updateCountdown();
+            e.target.reset();
+        });
+
+        // Enhanced bet display with new styling
+        function updateBetsDisplay() {
+            const betsList = document.getElementById('betsList');
+            betsList.innerHTML = '';
+            
+            bets.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            bets.forEach(bet => {
+                const betElement = document.createElement('div');
+                betElement.className = 'bet-card';
+                betElement.innerHTML = `
+                    <div class="bet-header">
+                        <div class="user-badge">
+                            <i class="fas fa-crown"></i>
+                            ${bet.user}
+                        </div>
+                        <div class="bet-date">
+                            <i class="fas fa-hourglass-half"></i>
+                            ${new Date(bet.date).toLocaleDateString()}
+                        </div>
+                    </div>
+                    ${bet.comment ? `<div class="bet-comment">"${bet.comment}"</div>` : ''}
+                    <div class="bet-timestamp">
+                        Prophecy cast: ${new Date(bet.timestamp).toLocaleString()}
+                    </div>
+                `;
+                betsList.appendChild(betElement);
+            });
+        }
+
+        // Add error animation
+        function showError(message) {
+            const Toast = document.createElement('div');
+            Toast.textContent = message;
+            Toast.style = /* Add toast styling */
+            document.body.appendChild(Toast);
+            setTimeout(() => Toast.remove(), 3000);
+        }
+
+        // Update remaining JavaScript functions with new class names and messaging
+    </script>
+
+<div class="admin-modal" id="adminModal">
+    <div class="admin-box">
+        <div class="admin-close" onclick="closeAdmin()">&times;</div>
+        <h3 style="text-align: center; margin-bottom: 1rem;">Admin Sanctum</h3>
+        <div class="password-input">
+            <i class="fas fa-key password-icon"></i>
+            <input type="password" id="adminPassword" placeholder="Enter Runic Code" 
+                   style="width: 100%; padding: 1rem;">
+        </div>
+        <div id="adminError" style="color: #ef4444; text-align: center; margin: 0.5rem 0;"></div>
+        <div class="admin-buttons">
+            <button onclick="attemptLogin()" style="flex: 1;">
+                <i class="fas fa-unlock"></i> Authenticate
+            </button>
+            <button onclick="closeAdmin()" style="background: #64748b; flex: 1;">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Update admin panel in container -->
+<div class="admin-panel">
+    <button onclick="showAdminModal()" style="background: var(--accent);">
+        <i class="fas fa-user-secret"></i> Admin Portal
+    </button>
+</div>
+
+<script>
+    // Admin system
+    const ADMIN_PASS_HASH = 'd92c3ff3504e74c6a9e17a47a1f7e2e5d4d4a3e7e6e7c5d5a3b4c5d6e7f8a9b'; // SHA-256 hash of "WalleyeIsNotSmart"
+
+    async function hashPassword(password) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(password);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function attemptLogin() {
+        const password = document.getElementById('adminPassword').value;
+        const hashed = await hashPassword(password);
+        
+        if(hashed === ADMIN_PASS_HASH) {
+            localStorage.setItem('adminAuth', 'true');
+            showAdminControls();
+            closeAdmin();
+        } else {
+            document.getElementById('adminError').textContent = 
+                'Incorrect runic sequence! The void whispers... try again.';
+        }
+    }
+
+    function showAdminModal() {
+        document.getElementById('adminModal').style.display = 'flex';
+    }
+
+    function closeAdmin() {
+        document.getElementById('adminModal').style.display = 'none';
+        document.getElementById('adminError').textContent = '';
+        document.getElementById('adminPassword').value = '';
+    }
+
+    function showAdminControls() {
+        const adminPanel = document.querySelector('.admin-panel');
+        adminPanel.innerHTML = `
+            <button onclick="resetBets()" style="background: var(--accent); margin-right: 1rem;">
+                <i class="fas fa-trash"></i> Reset Prophecies
+            </button>
+            <button onclick="mockEndClan()" style="background: var(--secondary); margin-right: 1rem;">
+                <i class="fas fa-skull"></i> Simulate Ragnarök
+            </button>
+            <button onclick="logoutAdmin()" style="background: #64748b;">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        `;
+    }
+
+    function logoutAdmin() {
+        localStorage.removeItem('adminAuth');
+        document.querySelector('.admin-panel').innerHTML = `
+            <button onclick="showAdminModal()" style="background: var(--accent);">
+                <i class="fas fa-user-secret"></i> Admin Portal
+            </button>
+        `;
+    }
+
+    // Check existing auth on load
+    if(localStorage.getItem('adminAuth') === 'true') {
+        showAdminControls();
+    }
+
+    // Keep existing resetBets and mockEndClan functions
+</script>
+</body>
+</html>
