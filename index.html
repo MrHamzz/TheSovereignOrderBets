@@ -181,19 +181,19 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1 class="title">Sovereign Order Countdown</h1>
-            <p class="subtitle">Prophecy Arena v2.0</p>
+            <h1 class="title">Sovereign Order Death Bet</h1>
+            <p class="subtitle">Made by Darksouls-52-Ill</p>
         </div>
 
         <div class="countdown-panel">
-            <div class="countdown-text">TIME UNTIL COLLAPSE</div>
+            <div class="countdown-text">TIME UNTIL DEATH</div>
             <div class="countdown-timer" id="countdown">-- : -- : --</div>
         </div>
 
         <div class="betting-interface">
             <form class="bet-form" id="betForm">
                 <div class="form-group">
-                    <label>Prophet's Alias</label>
+                    <label>Username</label>
                     <input type="text" id="userName" required>
                 </div>
                 <div class="form-group">
@@ -201,10 +201,10 @@
                     <input type="date" id="endDate" required>
                 </div>
                 <div class="form-group">
-                    <label>Wisdom Imprint (Optional)</label>
+                    <label>Comment (Optional)</label>
                     <input type="text" id="comment">
                 </div>
-                <button type="submit">CAST PROPHECY <i class="fas fa-crystal-ball"></i></button>
+                <button type="submit">CAST BET <i class="fas fa-crystal-ball"></i></button>
             </form>
 
             <div class="bets-leaderboard" id="betsList">
@@ -214,7 +214,7 @@
 
         <div class="admin-panel">
             <button onclick="showAdminModal()" class="admin-btn">
-                <i class="fas fa-user-secret"></i> Initiate Protocol
+                <i class="fas fa-user-secret"></i> Admin Panel
             </button>
         </div>
     </div>
@@ -233,7 +233,7 @@
 
         // Initialize
         loadBets();
-        setInterval(loadBets, 10000); // Refresh every 10 seconds
+        setInterval(loadBets, 15000); // Refresh every 15 seconds
 
         async function loadBets() {
             try {
